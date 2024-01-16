@@ -113,6 +113,7 @@ function closeModal() {
 async function addEventClickToTheLi(event) {
     const pokemonName = event.target;
 
+
     const pokemon = await pokeApi.getDetailsPokemonsToModal(pokemonName.innerHTML);
     modal.innerHTML = PokemonModalDetails(pokemon)
     modal.showModal()
