@@ -144,6 +144,15 @@
     background-color: #6c79db;
     border: none;
     border-radius: 1rem;
+    cursor: pointer;
+}
+
+dialog {
+    height: 80%;
+    width: 60%;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 15 15;
 }
 
 @media screen and (min-width: 380px) {

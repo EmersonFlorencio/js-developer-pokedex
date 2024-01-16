@@ -1,5 +1,6 @@
-const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
+const pokemonList = document.getElementById('pokemonList');
+const loadMoreButton = document.getElementById('loadMoreButton');
+const modal = document.querySelector("dialog");
 
 const maxRecords = 151
 const limit = 10
@@ -7,9 +8,18 @@ let offset = 0;
 
 function convertPokemonToLi(pokemon) {
     return `
-        <li class="pokemon ${pokemon.type}">
+    <div 
+        id="${pokemon.name}"
+    >
+        <li 
+            class="pokemon ${pokemon.type}"
+        >
             <span class="number">#${pokemon.number}</span>
-            <span class="name">${pokemon.name}</span>
+            <span 
+                onclick="addEventClickToTheLi(event)" 
+                style="cursor: pointer"
+                class="name">${pokemon.name}
+            </span>
 
             <div class="detail">
                 <ol class="types">
@@ -20,6 +30,7 @@ function convertPokemonToLi(pokemon) {
                      alt="${pokemon.name}">
             </div>
         </li>
+    </div>
     `
 }
 
@@ -44,4 +55,69 @@ loadMoreButton.addEventListener('click', () => {
     } else {
         loadPokemonItens(offset, limit)
     }
-})
+});
+
+function PokemonModalDetails(pokemon) {
+    return `
+    <section>
+    <button onclick="closeModal()">X</button>
+    <li 
+        class="pokemon ${pokemon.type}"
+        id="${pokemon.name}"
+    >
+        <span class="number">#${pokemon.number}</span>
+        <span class="name">${pokemon.name}</span>
+
+        <div class="detail">
+            <ol class="types">
+                ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+            </ol>
+
+            <img src="${pokemon.photo}"
+                 alt="${pokemon.name}">
+        </div>
+
+        </li>
+        <div>
+        <p>Habilidades</p>
+            ${pokemon.abilities
+            .map((ability) =>
+                `<div>
+                    <span>${ability}</span>
+                </div>
+                `)
+            .join('')}
+        </div>
+            <p>Peso</p> 
+            <p>${pokemon.weight} Lbs</p>
+        </div>
+        </div>
+            <p>Status do Pokemon</p> 
+            ${pokemon.stats.map((status) =>
+                `
+            <div>
+                <p>${status.stat.name}</p>
+                <p>${status.base_stat}</p>
+            </div>
+              `)
+            .join('')}
+        </div>
+    </section>
+`
+}
+
+function closeModal() {
+    modal.close()
+}
+
+async function addEventClickToTheLi(event) {
+    const pokemonName = event.target;
+
+    const pokemon = await pokeApi.getDetailsPokemonsToModal(pokemonName.innerHTML);
+    modal.innerHTML = PokemonModalDetails(pokemon)
+    modal.showModal()
+
+    closeModal
+}
+
+
