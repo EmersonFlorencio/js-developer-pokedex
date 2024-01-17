@@ -59,14 +59,14 @@ loadMoreButton.addEventListener('click', () => {
 
 function PokemonModalDetails(pokemon) {
     return `
-    <section>
-    <button onclick="closeModal()">X</button>
+    <button class="buttonModal" onclick="closeModal()">X</button>
+    <section class="pokemon ${pokemon.type}">
     <li 
         class="pokemon ${pokemon.type}"
         id="${pokemon.name}"
     >
         <span class="number">#${pokemon.number}</span>
-        <span class="name">${pokemon.name}</span>
+        <span id="name" class="name">${pokemon.name}</span>
 
         <div class="detail">
             <ol class="types">
@@ -77,26 +77,27 @@ function PokemonModalDetails(pokemon) {
                  alt="${pokemon.name}">
         </div>
 
-        </li>
         <div>
-        <p>Habilidades</p>
+        <h3>Habilidades </h3>
             ${pokemon.abilities
             .map((ability) =>
-                `<div>
+                `<div class="AbilitiesInfo">
                     <span>${ability}</span>
                 </div>
                 `)
             .join('')}
         </div>
-            <p>Peso</p> 
-            <p>${pokemon.weight} Lbs</p>
+            <h3>Peso</h3> 
+            <p id="peso">${pokemon.weight} Lbs</p>
         </div>
-        </div>
-            <p>Status do Pokemon</p> 
+
+        </li>
+        <div class="status-container">
+            <h3>Status do Pokemon</h3> 
             ${pokemon.stats.map((status) =>
                 `
-            <div>
-                <p>${status.stat.name}</p>
+            <div class="statusInfo">
+                <p>${status.stat.name}:</p>
                 <p>${status.base_stat}</p>
             </div>
               `)
